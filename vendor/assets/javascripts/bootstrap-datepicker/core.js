@@ -133,7 +133,7 @@
 		this.startDate = -Infinity;
 		this.endDate = Infinity;
 		this.daysOfWeekDisabled = [];
-		this.beforeShowDay = options.beforeShowDay || $.noop;
+		this.beforeShowDay = options.beforeShowDay || function(){};
 		this.setStartDate(options.startDate||this.element.data('date-startdate'));
 		this.setEndDate(options.endDate||this.element.data('date-enddate'));
 		this.setDaysOfWeekDisabled(options.daysOfWeekDisabled||this.element.data('date-days-of-week-disabled'));
@@ -240,7 +240,7 @@
 			if (!this.isInline)
 				this.picker.appendTo('body');
 			this.picker.show();
-			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
+			this.height = this.component ? this.component.height() : this.element.height();
 			this.place();
 			this._attachSecondaryEvents();
 			if (e) {
@@ -356,7 +356,7 @@
 							return $(this).css('z-index') != 'auto';
 						}).first().css('z-index'))+10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
-			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(true);
+			var height = this.component ? this.component.height(true) : this.element.height(true);
 			this.picker.css({
 				top: offset.top + height,
 				left: offset.left,
@@ -531,11 +531,8 @@
 			this.picker.find('.datepicker-days tbody').empty().append(html.join(''));
 			var currentYear = this.date && this.date.getUTCFullYear();
 
-			var months = this.picker.find('.datepicker-months')
-						.find('th:eq(1)')
-							.text(year)
-							.end()
-						.find('span').removeClass('active');
+			this.picker.find('.datepicker-months').find('th:eq(1)').text(year);
+			var months = this.picker.find('span').removeClass('active');
 			if (currentYear && currentYear == year) {
 				months.eq(this.date.getUTCMonth()).addClass('active');
 			}
@@ -551,11 +548,8 @@
 
 			html = '';
 			year = parseInt(year/10, 10) * 10;
-			var yearCont = this.picker.find('.datepicker-years')
-								.find('th:eq(1)')
-									.text(year + '-' + (year + 9))
-									.end()
-								.find('td');
+			this.picker.find('.datepicker-years').find('th:eq(1)').text(year + '-' + (year + 9));
+			var yearCont = this.picker.find('td');
 			year -= 1;
 			for (var i = -1; i < 11; i++) {
 				html += '<span class="year'+(i == -1 || i == 10 ? ' old' : '')+(currentYear == year ? ' active' : '')+(year < startYear || year > endYear ? ' disabled' : '')+'">'+year+'</span>';
