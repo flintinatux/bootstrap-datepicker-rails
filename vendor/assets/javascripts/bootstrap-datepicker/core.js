@@ -521,7 +521,7 @@
 				if (before.tooltip)
 					tooltip = before.tooltip;
 
-				clsName = $.unique(clsName);
+				// clsName = $.unique(clsName);
 				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
 				if (prevMonth.getUTCDay() == this.weekEnd) {
 					html.push('</tr>');
